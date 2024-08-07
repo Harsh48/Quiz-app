@@ -1,13 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/store';
-import { nextQuestion, addScore, finishQuiz, setQuestions, resetQuiz } from '../redux/slices/quizSlice';
+import { nextQuestion, addScore, finishQuiz, setQuestions, resetQuiz, addAnswer } from '../redux/slices/quizSlice';
 import { fetchQuizQuestions } from '../services/quizService';
 import Question from './Question';
 import Results from './Results';
 import CategorySelection from './CategorySelection';
 import DifficultySelection from './DifficultySelection';
-import './Quiz.css'
+import GlobalStyles from '../styles/GlobalStyles';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import styled from 'styled-components';
+
+const QuizContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1s ease-in;
+`;
+
+const Timer = styled.div`
+  font-size: 1.2em;
+  margin-bottom: 20px;
+`;
+
+const StartButton = styled.button`
+  background-color: #4CAF50;
+  color: white;
+  padding: 15px 32px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
 
 const Quiz: React.FC = () => {
   const dispatch = useDispatch();
@@ -21,27 +50,38 @@ const Quiz: React.FC = () => {
       handleAnswer(false);
     }
     const timer = setInterval(() => {
-      setTimeLeft(timeLeft - 1);
+      setTimeLeft((prevTime) => prevTime - 1);
     }, 1000);
     return () => clearInterval(timer);
   }, [timeLeft]);
 
   useEffect(() => {
-     console.log(questions)
-     console.log(status)
+    console.log('Questions in State:', questions);
   }, [questions]);
 
-
   const startQuiz = async () => {
-    const questions = await fetchQuizQuestions(category, difficulty);
-    console.log(questions)
-    dispatch(setQuestions(questions));
+    try {
+      const fetchedQuestions = await fetchQuizQuestions(category, difficulty);
+      console.log('Fetched Questions:', fetchedQuestions);
+      dispatch(setQuestions(fetchedQuestions));
+    } catch (error) {
+      toast.error('Error fetching questions. Please try again.');
+      console.error('Error fetching questions:', error);
+    }
   };
 
   const handleAnswer = (isCorrect: boolean) => {
+    const question = questions[currentQuestionIndex];
+    dispatch(addAnswer({
+      question: question.question,
+      answer: isCorrect ? question.correct_answer : question.incorrect_answers[0], // Simplification for demo purposes
+      correct: isCorrect,
+    }));
+
     if (isCorrect) {
       dispatch(addScore(questions[currentQuestionIndex].type === 'multiple' ? 10 : 5));
     }
+
     if (currentQuestionIndex < questions.length - 1) {
       dispatch(nextQuestion());
       setTimeLeft(30);
@@ -57,11 +97,13 @@ const Quiz: React.FC = () => {
 
   if (status === 'idle') {
     return (
-      <div>
+      <QuizContainer>
+        <GlobalStyles />
         <CategorySelection setCategory={setCategory} />
         <DifficultySelection setDifficulty={setDifficulty} />
-        <button onClick={startQuiz}>Start Quiz</button>
-      </div>
+        <StartButton onClick={startQuiz}>Start Quiz</StartButton>
+        <ToastContainer />
+      </QuizContainer>
     );
   }
 
@@ -70,12 +112,14 @@ const Quiz: React.FC = () => {
   }
 
   return (
-    <div>
-      <div>Time left: {timeLeft} seconds</div>
+    <QuizContainer>
+      <GlobalStyles />
+      <Timer>Time left: {timeLeft} seconds</Timer>
       {questions.length > 0 && (
         <Question question={questions[currentQuestionIndex]} onAnswer={handleAnswer} />
       )}
-    </div>
+      <ToastContainer />
+    </QuizContainer>
   );
 };
 

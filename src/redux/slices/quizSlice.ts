@@ -9,11 +9,18 @@ interface Question {
   incorrect_answers: string[];
 }
 
+interface Answer {
+  question: string;
+  answer: string;
+  correct: boolean;
+}
+
 interface QuizState {
   questions: Question[];
   currentQuestionIndex: number;
   score: number;
-  status: 'idle' | 'loading' | 'finished';
+  status: 'idle' | 'loading' | 'active' | 'finished';
+  answers: Answer[];
 }
 
 const initialState: QuizState = {
@@ -21,6 +28,7 @@ const initialState: QuizState = {
   currentQuestionIndex: 0,
   score: 0,
   status: 'idle',
+  answers: [],
 };
 
 const quizSlice = createSlice({
@@ -29,7 +37,7 @@ const quizSlice = createSlice({
   reducers: {
     setQuestions(state, action: PayloadAction<Question[]>) {
       state.questions = action.payload;
-      state.status = 'loading';
+      state.status = 'active';
     },
     nextQuestion(state) {
       state.currentQuestionIndex += 1;
@@ -37,11 +45,15 @@ const quizSlice = createSlice({
     addScore(state, action: PayloadAction<number>) {
       state.score += action.payload;
     },
+    addAnswer(state, action: PayloadAction<Answer>) {
+      state.answers.push(action.payload);
+    },
     resetQuiz(state) {
       state.questions = [];
       state.currentQuestionIndex = 0;
       state.score = 0;
       state.status = 'idle';
+      state.answers = [];
     },
     finishQuiz(state) {
       state.status = 'finished';
@@ -49,6 +61,6 @@ const quizSlice = createSlice({
   },
 });
 
-export const { setQuestions, nextQuestion, addScore, resetQuiz, finishQuiz } = quizSlice.actions;
+export const { setQuestions, nextQuestion, addScore, addAnswer, resetQuiz, finishQuiz } = quizSlice.actions;
 
 export default quizSlice.reducer;
