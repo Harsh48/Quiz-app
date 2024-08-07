@@ -1,0 +1,165 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Results Component renders Results component correctly 1`] = `
+<DocumentFragment>
+  .c0 {
+  text-align: center;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1s ease-in;
+}
+
+.c1 {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+}
+
+.c5 {
+  background-color: #f44336;
+  color: white;
+  padding: 15px 32px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.c5:hover {
+  background-color: #da190b;
+}
+
+.c2 {
+  list-style: none;
+  padding: 0;
+}
+
+.c3 {
+  margin-bottom: 10px;
+  color: green;
+}
+
+.c4 {
+  margin-bottom: 10px;
+  color: red;
+}
+
+<div
+    class="c0"
+  >
+    <h2
+      class="c1"
+    >
+      Your Score: 30
+    </h2>
+    <ul
+      class="c2"
+    >
+      <li
+        class="c3"
+      >
+        What is the capital of France? - Your answer: Paris (Correct)
+      </li>
+      <li
+        class="c3"
+      >
+        What is 2+2? - Your answer: 4 (Correct)
+      </li>
+      <li
+        class="c4"
+      >
+        Is the sky blue? - Your answer: Yes (Incorrect)
+      </li>
+    </ul>
+    <button
+      class="c5"
+    >
+      Start New Quiz
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`renders Results component correctly 1`] = `
+<DocumentFragment>
+  .c0 {
+  text-align: center;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1s ease-in;
+}
+
+.c1 {
+  font-size: 1.8em;
+  margin-bottom: 20px;
+}
+
+.c5 {
+  background-color: #f44336;
+  color: white;
+  padding: 15px 32px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.c5:hover {
+  background-color: #da190b;
+}
+
+.c2 {
+  list-style: none;
+  padding: 0;
+}
+
+.c3 {
+  margin-bottom: 10px;
+  color: green;
+}
+
+.c4 {
+  margin-bottom: 10px;
+  color: red;
+}
+
+<div
+    class="c0"
+  >
+    <h2
+      class="c1"
+    >
+      Your Score: 30
+    </h2>
+    <ul
+      class="c2"
+    >
+      <li
+        class="c3"
+      >
+        What is the capital of France? - Your answer: Paris (Correct)
+      </li>
+      <li
+        class="c3"
+      >
+        What is 2+2? - Your answer: 4 (Correct)
+      </li>
+      <li
+        class="c4"
+      >
+        Is the sky blue? - Your answer: Yes (Incorrect)
+      </li>
+    </ul>
+    <button
+      class="c5"
+    >
+      Start New Quiz
+    </button>
+  </div>
+</DocumentFragment>
+`;
