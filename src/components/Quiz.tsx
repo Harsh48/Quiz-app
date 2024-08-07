@@ -72,12 +72,13 @@ const Quiz: React.FC = () => {
 
   const handleAnswer = (isCorrect: boolean) => {
     const question = questions[currentQuestionIndex];
+    if(question){
     dispatch(addAnswer({
-      question: question.question,
+      question: question?.question,
       answer: isCorrect ? question.correct_answer : question.incorrect_answers[0], // Simplification for demo purposes
       correct: isCorrect,
     }));
-
+   }
     if (isCorrect) {
       dispatch(addScore(questions[currentQuestionIndex].type === 'multiple' ? 10 : 5));
     }
